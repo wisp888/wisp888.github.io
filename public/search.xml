@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Centos7 部署flask + vue-element笔记</title>
+    <url>/2019/10/31/Centos7%20%E9%83%A8%E7%BD%B2flask%20+%20vue-element%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="目录结构："><a href="#目录结构：" class="headerlink" title="目录结构："></a>目录结构：</h2><ul>
+<li>/data/www/oms/server 后端</li>
+<li>/data/www/oms/client  前端</li>
+</ul>
+<h2 id="部署vue前端"><a href="#部署vue前端" class="headerlink" title="部署vue前端"></a>部署vue前端</h2><h3 id="一、安装Nodejs"><a href="#一、安装Nodejs" class="headerlink" title="一、安装Nodejs"></a>一、安装Nodejs</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum -y install nodejs</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="二、编译vue"><a href="#二、编译vue" class="headerlink" title="二、编译vue"></a>二、编译vue</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /data/www/oms/client</span><br><span class="line">npm install</span><br><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+<h2 id="部署flask后端"><a href="#部署flask后端" class="headerlink" title="部署flask后端"></a>部署flask后端</h2><h3 id="一、安装配置virtualenv"><a href="#一、安装配置virtualenv" class="headerlink" title="一、安装配置virtualenv"></a>一、安装配置virtualenv</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /data/www/oms/server</span><br><span class="line">/usr/local/python3/bin/pip3 install virtualenv</span><br><span class="line">/usr/local/python3/bin/virtualenv --no-site-packages venv</span><br><span class="line">source venv/bin/activate    # 进入虚拟环境</span><br><span class="line">pip install -r requirements.txt</span><br><span class="line">pip install Gunicorn</span><br><span class="line">deactivate    # 退出虚拟环境</span><br></pre></td></tr></table></figure>
+<h3 id="二、安装配置supervistord"><a href="#二、安装配置supervistord" class="headerlink" title="二、安装配置supervistord"></a>二、安装配置supervistord</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/usr/local/python3/bin/pip3 install supervisor</span><br><span class="line">/usr/local/python3/bin/echo_supervisord_conf &gt; /etc/supervisord.conf</span><br></pre></td></tr></table></figure>
+<p>注意修改里面的配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[include]</span><br><span class="line">files = /etc/supervisord.d/*.ini</span><br></pre></td></tr></table></figure>
+<p>添加flask进程/etc/supervisord.d/oms.ini</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[program:oms-app]</span><br><span class="line">; 下面命令中的 app:app 请修改为你实际部署时的项目名称</span><br><span class="line">command=/data/www/oms/server/venv/bin/gunicorn -w 64 --bind=127.0.0.1:17173 manager:app --access-logfile logs/access.log --error-logfile logs/error.log</span><br><span class="line">;</span><br><span class="line">; ; 下面的路径请修改为你创建的项目的根目录</span><br><span class="line">directory=/data/www/oms/server</span><br><span class="line"></span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">stopsignal=QUIT</span><br><span class="line">stopasgroup=true</span><br><span class="line">killasgroup=true</span><br><span class="line">;</span><br><span class="line">; 下面的用户请修改为创建该项目的用户</span><br><span class="line">user=root</span><br><span class="line">;</span><br><span class="line">redirect_stderr=true</span><br><span class="line">;</span><br><span class="line">; log 文件的路径你可以重新自定义</span><br><span class="line">stdout_logfile=/data/www/oms/server/supervisor.log</span><br><span class="line"></span><br><span class="line">; 解决编码问题</span><br><span class="line">[supervisord]</span><br><span class="line">environment=LC_ALL=&apos;en_US.UTF-8&apos;,LANG=&apos;en_US.UTF-8&apos;</span><br></pre></td></tr></table></figure>
+<p>启动：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/usr/local/python3/bin/supervisord -c /etc/supervisord.conf</span><br><span class="line">/usr/local/python3/bin/supervisorctl update</span><br><span class="line">/usr/local/python3/bin/supervisorctl status</span><br></pre></td></tr></table></figure>
+<h2 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  oms.lhp.com;</span><br><span class="line">        root  /data/www/oms/client/dist/;</span><br><span class="line">        index index.html index.htm;</span><br><span class="line"></span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        expires  30d;</span><br><span class="line"></span><br><span class="line">        location ~ /\.svn/     &#123;  return 403; &#125;</span><br><span class="line">        location ~* \.(sh|xls|doc|log|sh|sql|svn|tar|gz|svn-base) &#123;  root ~; deny all; &#125;</span><br><span class="line"></span><br><span class="line">        access_log  /data/nginx_logs/oms_client.access.log;</span><br><span class="line">        error_log   /data/nginx_logs/oms_client.error.log;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">        listen 10002;</span><br><span class="line">        server_name _;</span><br><span class="line">        return 403;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">        listen      10002;</span><br><span class="line">        server_name oms.lhp.com;</span><br><span class="line"></span><br><span class="line">        access_log  /data/nginx_logs/oms_server.access.log;</span><br><span class="line">        error_log   /data/nginx_logs/oms_server.error.log;</span><br><span class="line"></span><br><span class="line">        location /docs &#123;</span><br><span class="line">                allow 183.63.86.194;</span><br><span class="line">                deny all;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">        # flask中已设置跨域配置，Nginx不需要重复配置</span><br><span class="line">        proxy_hide_header &apos;Access-Control-Allow-Origin&apos;;</span><br><span class="line">        proxy_pass        http://127.0.0.1:17173;</span><br><span class="line">                proxy_http_version 1.1;</span><br><span class="line">                proxy_set_header   Host             $host;</span><br><span class="line">                proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">                proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</span><br><span class="line">                proxy_set_header X-Forwarded-Host $host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>reload nginx</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl reload nginx</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>flask</category>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
+        <tag>vue</tag>
+        <tag>flask</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Centos7 mongodb安装笔记</title>
+    <url>/2019/10/31/Centos7%20mongodb%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="配置系统源"><a href="#配置系统源" class="headerlink" title="配置系统源"></a>配置系统源</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /etc/yum.repos.d/mongodb-org-4.2.repo</span><br><span class="line"></span><br><span class="line">[mongodb-org-4.2]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.2/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y mongodb-org</span><br><span class="line">systemctl start mongod.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置用户"><a href="#配置用户" class="headerlink" title="配置用户"></a>配置用户</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use admin</span><br><span class="line">db.createUser(&#123; user:&quot;root&quot;, pwd:&quot;123456&quot;, roles:[&quot;root&quot;] &#125;)</span><br><span class="line">use test</span><br><span class="line">db.createUser(&#123; user:&quot;admin&quot;, pwd:&quot;123456&quot;, roles:[&quot;dbOwner&quot;] &#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改配置文件-etc-mongod-conf"><a href="#修改配置文件-etc-mongod-conf" class="headerlink" title="修改配置文件/etc/mongod.conf"></a>修改配置文件/etc/mongod.conf</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># mongod.conf</span><br><span class="line"></span><br><span class="line"># for documentation of all options, see:</span><br><span class="line">#   http://docs.mongodb.org/manual/reference/configuration-options/</span><br><span class="line"></span><br><span class="line"># where to write logging data.</span><br><span class="line">systemLog:</span><br><span class="line">  destination: file</span><br><span class="line">  logAppend: true</span><br><span class="line">  path: /var/log/mongodb/mongod.log</span><br><span class="line"></span><br><span class="line"># Where and how to store data.</span><br><span class="line">storage:</span><br><span class="line">  dbPath: /data/mongo</span><br><span class="line">  journal:</span><br><span class="line">    enabled: true</span><br><span class="line">#  engine:</span><br><span class="line">#  wiredTiger:</span><br><span class="line"></span><br><span class="line"># how the process runs</span><br><span class="line">processManagement:</span><br><span class="line">  fork: true  # fork and run in background</span><br><span class="line">  pidFilePath: /var/run/mongodb/mongod.pid  # location of pidfile</span><br><span class="line">  timeZoneInfo: /usr/share/zoneinfo</span><br><span class="line"></span><br><span class="line"># network interfaces</span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 0.0.0.0  # Enter 0.0.0.0,:: to bind to all IPv4 and IPv6 addresses or, alternatively, use the net.bindIpAll setting.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">security:</span><br><span class="line">  authorization: &quot;enabled&quot;</span><br><span class="line"></span><br><span class="line">#operationProfiling:</span><br><span class="line"></span><br><span class="line">#replication:</span><br><span class="line"></span><br><span class="line">#sharding:</span><br><span class="line"></span><br><span class="line">## Enterprise-Only Options</span><br><span class="line"></span><br><span class="line">#auditLog:</span><br><span class="line"></span><br><span class="line">#snmp:</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>mongodb</category>
+      </categories>
+      <tags>
+        <tag>centos7</tag>
+        <tag>mongodb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2019/10/31/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+</search>

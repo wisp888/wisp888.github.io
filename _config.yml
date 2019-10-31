@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-keywords:
-author: John Doe
-language: en
+title: wisp博客
+subtitle: 人生苦短，我用Shell
+description: 卧槽，炸了
+keywords: python
+author: wisp888
+language: zh-Hans
 timezone:
 
 # URL
@@ -99,3 +99,10 @@ deploy:
   type: git
   repo: git@github.com:wisp888/wisp888.github.io.git
   branch: master
+
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
