@@ -96,4 +96,6 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:wisp888/wisp888.github.io.git
+  branch: master

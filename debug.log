@@ -864,3 +864,5 @@
 {"name":"hexo","hostname":"wisp-System-Product-Name","pid":6834,"level":40,"msg":"===============================================================","time":"2019-10-31T06:06:59.173Z","v":0}
 {"name":"hexo","hostname":"wisp-System-Product-Name","pid":6834,"level":40,"msg":" It's rebase to v6.0.0 and future maintenance will resume there","time":"2019-10-31T06:06:59.173Z","v":0}
 {"name":"hexo","hostname":"wisp-System-Product-Name","pid":6834,"level":40,"msg":"===============================================================","time":"2019-10-31T06:06:59.173Z","v":0}
+{"name":"hexo","hostname":"wisp-System-Product-Name","pid":6834,"level":30,"msg":"Have a nice day","time":"2019-10-31T06:15:55.305Z","v":0}
+{"name":"hexo","hostname":"wisp-System-Product-Name","pid":6834,"level":20,"msg":"Database saved","time":"2019-10-31T06:15:55.339Z","v":0}
