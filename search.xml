@@ -25,7 +25,7 @@
 <li>–type 指定备份文件的类型</li>
 <li>–headline 表示不导入首行</li>
 </ul>
-]]></content>
+<h3 id="举个粟子"><a href="#举个粟子" class="headerlink" title="举个粟子"></a>举个粟子</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mongodump    -d oms -o ./oms.db</span><br><span class="line">mongorestore -d oms --drop oms/</span><br><span class="line">mongoexport  -d oms -c project_channel -o ./project_channel</span><br><span class="line">mongoimport  -d oms -c project_channel project_channel</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>mongodb</category>
       </categories>
