@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python Json序列化时时间处理</title>
+    <url>/2019/11/06/Python-Json%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%B6%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>在Python使用Json序列化字典的时候,如果遇到值是Datetime,Date格式的会报错,总不能手工一个个转,今天查了一下,可以使用dumps的default参数指定一个函数,loads的object_hook指定一个函数,解决这些转换问题</p>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import json</span><br><span class="line">from datetime import datetime, date</span><br><span class="line"></span><br><span class="line">def json_dumps_default(obj):</span><br><span class="line">    if isinstance(obj, datetime):</span><br><span class="line">        return obj.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;)</span><br><span class="line">    elif isinstance(obj, date):</span><br><span class="line">        return obj.strftime(&apos;%Y-%m-%d&apos;)</span><br><span class="line">    else:</span><br><span class="line">        return obj</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def json_loads_hook(dct):</span><br><span class="line">    for k, v in dct.items():</span><br><span class="line">        if k in [&quot;onlinedate&quot;, &quot;pre_onlinedate&quot;, &quot;mergedate&quot;]:</span><br><span class="line">            try:</span><br><span class="line">                dct[k] = datetime.strptime(v, &apos;%Y-%m-%d %H:%M:%S&apos;)</span><br><span class="line">            except:</span><br><span class="line">                pass</span><br><span class="line">    return dct</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    data = &#123;&quot;onlinedate&quot;: &quot;2019-11-15 16:30:36&quot;, &quot;name&quot;: &quot;wisp888&quot;&#125;</span><br><span class="line"></span><br><span class="line">    d1 = json.dumps(data)</span><br><span class="line">    print(d1)</span><br><span class="line"></span><br><span class="line">    d2 = json.loads(d1, object_hook=json_loads_hook)</span><br><span class="line">    print(d2)</span><br><span class="line"></span><br><span class="line">    d3 = json.dumps(d2, default=json_dumps_default)</span><br><span class="line">    print(d3)</span><br></pre></td></tr></table></figure>
+
+<p>结果:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&quot;onlinedate&quot;: &quot;2019-11-15 16:30:36&quot;, &quot;name&quot;: &quot;wisp888&quot;&#125;</span><br><span class="line">&#123;&apos;onlinedate&apos;: datetime.datetime(2019, 11, 15, 16, 30, 36), &apos;name&apos;: &apos;wisp888&apos;&#125;</span><br><span class="line">&#123;&quot;onlinedate&quot;: &quot;2019-11-15 16:30:36&quot;, &quot;name&quot;: &quot;wisp888&quot;&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mongodb 数据备份与恢复</title>
     <url>/2019/11/05/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</url>
     <content><![CDATA[<h3 id="mongodump-备份数据库"><a href="#mongodump-备份数据库" class="headerlink" title="mongodump 备份数据库"></a>mongodump 备份数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./mongodump -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -o 文件存在路径</span><br></pre></td></tr></table></figure>
