@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>mongodb 数据备份与恢复</title>
-    <url>/2019/11/04/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</url>
+    <url>/2019/11/05/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</url>
     <content><![CDATA[<h3 id="mongodump-备份数据库"><a href="#mongodump-备份数据库" class="headerlink" title="mongodump 备份数据库"></a>mongodump 备份数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./mongodump -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -o 文件存在路径</span><br></pre></td></tr></table></figure>
 <ul>
 <li>不指定-d 则导出所有数据库</li>
