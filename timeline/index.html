@@ -321,7 +321,7 @@
 
   
 
-
+  
 
         </div>
         
@@ -605,6 +605,21 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9e8bbcddca472db930ee',
+          clientSecret: '4f4d65f3557e8e628b196bf2dfd724658394fa58',
+          repo: 'wisp888.github.io',
+          owner: 'wisp888',
+          admin: ['wisp888'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
 
   
 
