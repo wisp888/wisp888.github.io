@@ -84,7 +84,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="timeline">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;timeline&#x2F;index.html">
-<meta property="og:site_name" content="wisp博客">
+<meta property="og:site_name" content="wisp的博客">
 <meta property="og:description" content="卧槽，炸了">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2019-10-31T07:05:31.147Z">
@@ -124,7 +124,7 @@
 
 
 
-  <title>timeline | wisp博客</title>
+  <title>timeline | wisp的博客</title>
   
 
 
@@ -154,7 +154,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">wisp博客</span>
+        <span class="site-title">wisp的博客</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -320,6 +320,8 @@
           
 
   
+      <div id="gitalk-container"></div>
+  
 
 
 
@@ -362,7 +364,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -373,7 +375,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -384,7 +386,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -605,6 +607,22 @@
 
 
 
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9e8bbcddca472db930ee',
+          clientSecret: '4f4d65f3557e8e628b196bf2dfd724658394fa58',
+          repo: 'wisp888.github.io',
+          owner: 'wisp888',
+          admin: ['wisp888'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
 
   
 

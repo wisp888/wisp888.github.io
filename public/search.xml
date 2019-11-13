@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Ubuntu wine 修改字体</title>
+    <url>/2019/11/08/Ubuntu-wine-%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93/</url>
+    <content><![CDATA[<p>今天在Ubuntu安装WPS的时候，修复WPS的字体报错，从Windows复制了几个字体过来重新生成了一下缓存，突然WineQQ和微信的字体也变了，摸索了一下修改一发Wine字体：</p>
+<a id="more"></a>
+
+<p>每个wine程序都有自己的一套字体目录：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/home/wisp/.deepinwine/Deepin-QQLight/drive_c/windows/Fonts/</span><br><span class="line">/home/wisp/.deepinwine/Deepin-WeChat/drive_c/windows/Fonts/</span><br></pre></td></tr></table></figure>
+
+<p>下载simsun.ttc 字体，放到各个程序的Fonts目录下面去，然后创建注册表：<br>zh.reg</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">REGEDIT4</span><br><span class="line">[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontSubstitutes]</span><br><span class="line">&quot;Arial&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Arial CE,238&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Arial CYR,204&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Arial Greek,161&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Arial TUR,162&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Courier New&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Courier New CE,238&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Courier New CYR,204&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Courier New Greek,161&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Courier New TUR,162&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;FixedSys&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Helv&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Helvetica&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;MS Sans Serif&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;MS Shell Dlg&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;MS Shell Dlg 2&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;System&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Tahoma&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Times&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Times New Roman CE,238&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Times New Roman CYR,204&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Times New Roman Greek,161&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Times New Roman TUR,162&quot;=&quot;simsun&quot;</span><br><span class="line">&quot;Tms Rmn&quot;=&quot;simsun&quot;</span><br></pre></td></tr></table></figure>
+
+<p>导入zh.reg</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">WINEPREFIX=&quot;/home/wisp/.deepinwine/Deepin-QQLight/&quot; deepin-wine  regedit zh.reg</span><br><span class="line">WINEPREFIX=&quot;/home/wisp/.deepinwine/Deepin-WeChat/&quot; deepin-wine  regedit zh.reg</span><br></pre></td></tr></table></figure>
+
+<p>打开QQ，喵喵效果<br>搞完收工~</p>
+]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>wine</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python Json序列化时时间处理</title>
+    <url>/2019/11/06/Python-Json%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%B6%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>在Python使用Json序列化字典的时候,如果遇到值是Datetime,Date格式的会报错,总不能手工一个个转,今天查了一下,可以使用dumps的default参数指定一个函数,loads的object_hook指定一个函数,解决这些转换问题</p>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import json</span><br><span class="line">from datetime import datetime, date</span><br><span class="line"></span><br><span class="line">def json_dumps_default(obj):</span><br><span class="line">    if isinstance(obj, datetime):</span><br><span class="line">        return obj.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;)</span><br><span class="line">    elif isinstance(obj, date):</span><br><span class="line">        return obj.strftime(&apos;%Y-%m-%d&apos;)</span><br><span class="line">    else:</span><br><span class="line">        return obj</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def json_loads_hook(dct):</span><br><span class="line">    for k, v in dct.items():</span><br><span class="line">        if k in [&quot;onlinedate&quot;, &quot;pre_onlinedate&quot;, &quot;mergedate&quot;]:</span><br><span class="line">            try:</span><br><span class="line">                dct[k] = datetime.strptime(v, &apos;%Y-%m-%d %H:%M:%S&apos;)</span><br><span class="line">            except:</span><br><span class="line">                pass</span><br><span class="line">    return dct</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    data = &#123;&quot;onlinedate&quot;: &quot;2019-11-15 16:30:36&quot;, &quot;name&quot;: &quot;wisp888&quot;&#125;</span><br><span class="line"></span><br><span class="line">    d1 = json.dumps(data)</span><br><span class="line">    print(d1)</span><br><span class="line"></span><br><span class="line">    d2 = json.loads(d1, object_hook=json_loads_hook)</span><br><span class="line">    print(d2)</span><br><span class="line"></span><br><span class="line">    d3 = json.dumps(d2, default=json_dumps_default)</span><br><span class="line">    print(d3)</span><br></pre></td></tr></table></figure>
+
+<p>结果:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&quot;onlinedate&quot;: &quot;2019-11-15 16:30:36&quot;, &quot;name&quot;: &quot;wisp888&quot;&#125;</span><br><span class="line">&#123;&apos;onlinedate&apos;: datetime.datetime(2019, 11, 15, 16, 30, 36), &apos;name&apos;: &apos;wisp888&apos;&#125;</span><br><span class="line">&#123;&quot;onlinedate&quot;: &quot;2019-11-15 16:30:36&quot;, &quot;name&quot;: &quot;wisp888&quot;&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mongodb 数据备份与恢复</title>
+    <url>/2019/11/05/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</url>
+    <content><![CDATA[<h3 id="mongodump-备份数据库"><a href="#mongodump-备份数据库" class="headerlink" title="mongodump 备份数据库"></a>mongodump 备份数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./mongodump -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -o 文件存在路径</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不指定-d 则导出所有数据库</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="mongorestore还原数据库"><a href="#mongorestore还原数据库" class="headerlink" title="mongorestore还原数据库"></a>mongorestore还原数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./mongorestore -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 --drop 文件存在路径</span><br></pre></td></tr></table></figure>
+<ul>
+<li>–drop表示先删除所有记录，再导入备份</li>
+</ul>
+<h3 id="mongoexport-备份数据库指定表"><a href="#mongoexport-备份数据库指定表" class="headerlink" title="mongoexport 备份数据库指定表"></a>mongoexport 备份数据库指定表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./mongoexport -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -c 表名 -f 字段 -q 条件导出 --type=csv -o 文件名</span><br></pre></td></tr></table></figure>
+<ul>
+<li>-f 导出指定字段，以逗号分割</li>
+<li>-q 查询语句</li>
+<li>–type 默认为json</li>
+</ul>
+<h3 id="mongoimport-导入表，或者表中部分字段"><a href="#mongoimport-导入表，或者表中部分字段" class="headerlink" title="mongoimport 导入表，或者表中部分字段"></a>mongoimport 导入表，或者表中部分字段</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./mongoimport -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -c 表名 --type=csv --upsert --file 文件名</span><br></pre></td></tr></table></figure>
+<ul>
+<li>–upsert 插入或者更新现有数据</li>
+<li>–type 指定备份文件的类型</li>
+<li>–headline 表示不导入首行</li>
+</ul>
+<h3 id="举个粟子"><a href="#举个粟子" class="headerlink" title="举个粟子"></a>举个粟子</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mongodump    -d oms -o ./oms.db</span><br><span class="line">mongorestore -d oms --drop oms/</span><br><span class="line">mongoexport  -d oms -c project_channel -o ./project_channel</span><br><span class="line">mongoimport  -d oms -c project_channel project_channel</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>mongodb</category>
+      </categories>
+      <tags>
+        <tag>mongodb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Centos7 部署flask + vue-element笔记</title>
     <url>/2019/10/31/Centos7%20%E9%83%A8%E7%BD%B2flask%20+%20vue-element%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="目录结构："><a href="#目录结构：" class="headerlink" title="目录结构："></a>目录结构：</h2><ul>
