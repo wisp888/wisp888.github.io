@@ -106,12 +106,3 @@ search:
   field: post
   format: html
   limit: 10000
-
-gitalk:
-  enable: true
-  githubID: wisp888
-  repo: wisp888.github.io
-  ClientID: 9e8bbcddca472db930ee
-  ClientSecret: 4f4d65f3557e8e628b196bf2dfd724658394fa58
-  adminUser: wisp888
-  distractionFreeMode: true
