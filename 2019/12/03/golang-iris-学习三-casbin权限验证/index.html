@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="golang,iris,casbin," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Casbin官方教程  撸个简单的权限系统：用户包含角色， 角色包含权限 先定义一份简单的权限规则库相当于定义菜单权限 casbin.conf 1234567891011[request_definition]r = sub, obj, act[policy_definition]p = sub, obj, act[policy_effect]e = some(where (p.eft == al">
+<meta name="keywords" content="golang,iris,casbin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang iris 学习三: casbin权限验证">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;golang-iris-%E5%AD%A6%E4%B9%A0%E4%B8%89-casbin%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81&#x2F;index.html">
+<meta property="og:site_name" content="wisp的博客">
+<meta property="og:description" content="Casbin官方教程  撸个简单的权限系统：用户包含角色， 角色包含权限 先定义一份简单的权限规则库相当于定义菜单权限 casbin.conf 1234567891011[request_definition]r = sub, obj, act[policy_definition]p = sub, obj, act[policy_effect]e = some(where (p.eft == al">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;20191206093921.png">
+<meta property="og:updated_time" content="2019-12-06T01:47:18.638Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;20191206093921.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/03/golang-iris-学习三-casbin权限验证/"/>
+
+
+
+
+
+  <title>golang iris 学习三: casbin权限验证 | wisp的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wisp的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">人生苦短，我用Shell</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/golang-iris-%E5%AD%A6%E4%B9%A0%E4%B8%89-casbin%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wisp888">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wisp的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">golang iris 学习三: casbin权限验证</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-03T09:26:03+08:00">
+                2019-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://casbin.org/docs/zh-CN/tutorials" target="_blank" rel="noopener">Casbin官方教程</a> </p>
+<p>撸个简单的权限系统：用户包含角色， 角色包含权限</p>
+<h3 id="先定义一份简单的权限规则库"><a href="#先定义一份简单的权限规则库" class="headerlink" title="先定义一份简单的权限规则库"></a>先定义一份简单的权限规则库</h3><p>相当于定义菜单权限</p>
+<p>casbin.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[request_definition]</span><br><span class="line">r = sub, obj, act</span><br><span class="line"></span><br><span class="line">[policy_definition]</span><br><span class="line">p = sub, obj, act</span><br><span class="line"></span><br><span class="line">[policy_effect]</span><br><span class="line">e = some(where (p.eft == allow))</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = r.sub == p.sub &amp;&amp; keyMatch(r.obj, p.obj) &amp;&amp; (p.act == &quot;*&quot; || regexMatch(r.act, p.act))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>request_definition: 可以理解为验证函数传进去的参数</li>
+<li>policy_definition: 可以理解为添加规则函数传进去的参数，就是存进数据库的数据规则</li>
+<li>policy_effect: 对结果进行判定</li>
+<li>matchers: 匹配规则</li>
+</ul>
+<p>先测试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    enforcer := datasource.GetEnforce()</span><br><span class="line"></span><br><span class="line">    // 添加规则</span><br><span class="line">    ok, err := enforcer.AddPolicy(&quot;测试&quot;, &quot;test.a1&quot;, &quot;test&quot;, &quot;/test/a1&quot;, &quot;get&quot;)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(&quot;添加规则：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    // 测试规则</span><br><span class="line">    ok, err = enforcer.Enforce(&quot;test.a1&quot;, &quot;/test/a1&quot;, &quot;get&quot;)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    ok, err = enforcer.Enforce(&quot;test.a1&quot;, &quot;/test/a111&quot;, &quot;get&quot;)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line">添加规则：true</span><br><span class="line">规则测试：true</span><br><span class="line">规则测试：false</span><br></pre></td></tr></table></figure>
+
+<h3 id="增加组的权限"><a href="#增加组的权限" class="headerlink" title="增加组的权限"></a>增加组的权限</h3><p>相当于角色权限 和 用户权限</p>
+<p>casbin.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[request_definition]</span><br><span class="line">r = sub, obj, act</span><br><span class="line"></span><br><span class="line">[policy_definition]</span><br><span class="line">p = sub, obj, act</span><br><span class="line"></span><br><span class="line">[policy_effect]</span><br><span class="line">e = some(where (p.eft == allow))</span><br><span class="line"></span><br><span class="line">[role_definition]</span><br><span class="line">g = _, _</span><br><span class="line"></span><br><span class="line">[matchers]</span><br><span class="line">m = g(r.sub, p.sub) &amp;&amp; keyMatch(r.obj, p.obj) &amp;&amp; (p.act == &quot;*&quot; || regexMatch(r.act, p.act))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>role_definition: 分组功能</li>
+</ul>
+<p>测试代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">    &quot;goms/datasource&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    enforcer := datasource.GetEnforce()</span><br><span class="line"></span><br><span class="line">    // 添加规则</span><br><span class="line">    ok, err := enforcer.AddPolicy(&quot;test.a1&quot;, &quot;/test/a1&quot;, &quot;get&quot;)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(&quot;添加规则：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    // 测试规则</span><br><span class="line">    ok, err = enforcer.Enforce(&quot;test.a1&quot;, &quot;/test/a1&quot;, &quot;get&quot;)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    ok, err = enforcer.Enforce(&quot;test.a1&quot;, &quot;/test/a111&quot;, &quot;get&quot;)</span><br><span class="line">    if err != nil &#123;</span><br><span class="line">        fmt.Println(err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    // 添加角色</span><br><span class="line">    ok, _ = enforcer.AddGroupingPolicy(&quot;yy&quot;, &quot;test.a1&quot;)</span><br><span class="line">    fmt.Printf(&quot;添加角色：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    // 测试角色</span><br><span class="line">    ok, _ = enforcer.Enforce(&quot;yy&quot;, &quot;/test/a1&quot;, &quot;get&quot;)</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    ok, _ = enforcer.Enforce(&quot;yy&quot;, &quot;/test/a111&quot;, &quot;get&quot;)</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    // 添加用户</span><br><span class="line">    ok, _ = enforcer.AddGroupingPolicy(&quot;wisp&quot;, &quot;yy&quot;)</span><br><span class="line">    fmt.Printf(&quot;添加角色：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    // 测试用户</span><br><span class="line">    ok, _ = enforcer.Enforce(&quot;wisp&quot;, &quot;/test/a1&quot;, &quot;get&quot;)</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    ok, _ = enforcer.Enforce(&quot;wisp&quot;, &quot;/test/a111&quot;, &quot;get&quot;)</span><br><span class="line">    fmt.Printf(&quot;规则测试：%v\n&quot;, ok)</span><br><span class="line"></span><br><span class="line">    // 查询</span><br><span class="line">    ret := enforcer.GetFilteredPolicy(0, &quot;test.a1&quot;)</span><br><span class="line">    fmt.Println(ret)</span><br><span class="line"></span><br><span class="line">    ret = enforcer.GetFilteredGroupingPolicy(0, &quot;yy&quot;)</span><br><span class="line">    fmt.Println(ret)</span><br><span class="line"></span><br><span class="line">    ret = enforcer.GetFilteredGroupingPolicy(0, &quot;wisp&quot;)</span><br><span class="line">    fmt.Println(ret)</span><br><span class="line">&#125;</span><br><span class="line">---</span><br><span class="line">添加规则：false</span><br><span class="line">规则测试：true</span><br><span class="line">规则测试：false</span><br><span class="line">添加角色：false</span><br><span class="line">规则测试：true</span><br><span class="line">规则测试：false</span><br><span class="line">添加角色：true</span><br><span class="line">规则测试：true</span><br><span class="line">规则测试：false</span><br><span class="line">[[test.a1 /test/a1 get]]</span><br><span class="line">[[yy test.a1]]</span><br><span class="line">[[wisp yy]]</span><br></pre></td></tr></table></figure>
+
+<p>很简单，wisp拥有yy角色，yy角色包含test.a1 /test/a1 get 权限</p>
+<p>怎么结合到iris里面去呢，想来想去也想不懂，总不能把用户系统写到casbin里面来吧，要不就添加用户权限的时候更新一下casbin数据库，要不就登陆或者刷新的时候把用户权限写进casbin数据库，感觉麻，还是后面这种方便一点</p>
+<h3 id="先增加一份初始化代码"><a href="#先增加一份初始化代码" class="headerlink" title="先增加一份初始化代码"></a>先增加一份初始化代码</h3><p>datasource/casbin.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> datasource</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"github.com/casbin/casbin/v2"</span></span><br><span class="line">	mongodbadapter <span class="string">"github.com/casbin/mongodb-adapter/v2"</span></span><br><span class="line">	<span class="string">"goms/config"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Enforcer *casbin.Enforcer</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	mongoInfo := config.GConfig.Mongo</span><br><span class="line">	mongoUrl := fmt.Sprintf(<span class="string">"mongodb://%s:%d/%s"</span>, mongoInfo.Host, mongoInfo.Port, mongoInfo.Name)</span><br><span class="line">	a := mongodbadapter.NewAdapter(mongoUrl)</span><br><span class="line"></span><br><span class="line">	e, err := casbin.NewEnforcer(<span class="string">"casbin.conf"</span>, a)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	e.LoadPolicy()</span><br><span class="line">	e.EnableAutoSave(<span class="literal">true</span>)</span><br><span class="line">	Enforcer = e</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetEnforce</span><span class="params">()</span> *<span class="title">casbin</span>.<span class="title">Enforcer</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> Enforcer</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="增加casbin规则的增加、删除方法"><a href="#增加casbin规则的增加、删除方法" class="headerlink" title="增加casbin规则的增加、删除方法"></a>增加casbin规则的增加、删除方法</h3><p>repo/login_repo.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> repo</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"goms/datamodels"</span></span><br><span class="line">	<span class="string">"goms/datasource"</span></span><br><span class="line">	<span class="string">"gopkg.in/mgo.v2/bson"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> LoginRepository <span class="keyword">interface</span> &#123;</span><br><span class="line">	Check(query bson.M) (user datamodels.User, err error)</span><br><span class="line">	RemovePolicy(userID <span class="keyword">string</span>) (err error)</span><br><span class="line">	LoadPolicy(userID <span class="keyword">string</span>, menu datamodels.Menu) (err error)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> loginRepository <span class="keyword">struct</span> &#123;</span><br><span class="line">	collection <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewLoginRepository</span><span class="params">()</span> <span class="title">LoginRepository</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;loginRepository&#123;collection: <span class="string">"project_user"</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *loginRepository)</span> <span class="title">Check</span><span class="params">(query bson.M)</span> <span class="params">(user datamodels.User, err error)</span></span> &#123;</span><br><span class="line">	db := datasource.NewSessionStore()</span><br><span class="line">	<span class="keyword">defer</span> db.Close()</span><br><span class="line">	col := db.C(l.collection)</span><br><span class="line"></span><br><span class="line">	err = col.Find(query).One(&amp;user)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> !user.IsActive &#123;</span><br><span class="line">		err = fmt.Errorf(<span class="string">"该用户已被禁用！"</span>)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *loginRepository)</span> <span class="title">RemovePolicy</span><span class="params">(userID <span class="keyword">string</span>)</span> <span class="params">(err error)</span></span> &#123;</span><br><span class="line">	enforcer := datasource.GetEnforce()</span><br><span class="line">	_, err = enforcer.RemoveFilteredPolicy(<span class="number">0</span>, userID)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *loginRepository)</span> <span class="title">LoadPolicy</span><span class="params">(userID <span class="keyword">string</span>, menu datamodels.Menu)</span> <span class="params">(err error)</span></span> &#123;</span><br><span class="line">	enforcer := datasource.GetEnforce()</span><br><span class="line">	<span class="keyword">for</span> _, permission := <span class="keyword">range</span> menu.Permission &#123;</span><br><span class="line">		<span class="keyword">if</span> permission.Url == <span class="string">""</span> &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		_, err = enforcer.AddPolicy(userID, permission.Url, permission.Method)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要就是利用casbin的两个API：</p>
+<ul>
+<li>enforcer.RemoveFilteredPolicy</li>
+<li>enforcer.AddPolicy</li>
+</ul>
+<h3 id="用户刷新的时候更新一次casbin权限"><a href="#用户刷新的时候更新一次casbin权限" class="headerlink" title="用户刷新的时候更新一次casbin权限"></a>用户刷新的时候更新一次casbin权限</h3><p>说白了当这个东西是个缓存来用</p>
+<p>services/login_service.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *loginService)</span> <span class="title">Info</span><span class="params">(tokenString <span class="keyword">string</span>)</span> <span class="params">(response datamodels.Response)</span></span> &#123;</span><br><span class="line">	claims, _ := middleware.ParseToken(tokenString)</span><br><span class="line">	username := claims[<span class="string">"username"</span>].(<span class="keyword">string</span>)</span><br><span class="line">	user, err := l.repo.Check(bson.M&#123;<span class="string">"username"</span>: username&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		response.Code = config.DBSelectErr</span><br><span class="line">		response.Msg = fmt.Sprintf(<span class="string">"查询数据失败：%v"</span>, err)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> user.IsAdmin &#123;</span><br><span class="line">		user.Roles = []<span class="keyword">string</span>&#123;<span class="string">"admin"</span>&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		menuCodes := <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">5</span>)</span><br><span class="line">		l.repo.RemovePolicy(user.ID.Hex())  <span class="comment">// 删除该用户全部权限</span></span><br><span class="line">		<span class="keyword">for</span> _, id := <span class="keyword">range</span> user.Roles &#123;</span><br><span class="line">			role, _ := l.roleRepo.GetByID(id)</span><br><span class="line">			<span class="keyword">for</span> _, menuID := <span class="keyword">range</span> role.Menus &#123;</span><br><span class="line">				menu, _ := l.menuRepo.GetByID(menuID)</span><br><span class="line">				l.repo.LoadPolicy(user.ID.Hex(), menu)  <span class="comment">// 重新添加用户权限</span></span><br><span class="line">				menuCodes = <span class="built_in">append</span>(menuCodes, menu.Code)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		user.Roles = menuCodes</span><br><span class="line">	&#125;</span><br><span class="line">	response.Code = config.StatusOk</span><br><span class="line">	response.Msg = <span class="string">"success"</span></span><br><span class="line">	response.Data = user</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用户登陆或者刷新后数据库保存的规则如下：</p>
+<p><img src="/images/20191206093921.png" alt="20191206093921"></p>
+<h3 id="增加中间件验证权限："><a href="#增加中间件验证权限：" class="headerlink" title="增加中间件验证权限："></a>增加中间件验证权限：</h3><p>middleware/casbin_middleware.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> middleware</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/dgrijalva/jwt-go"</span></span><br><span class="line">	<span class="string">"github.com/kataras/iris/v12"</span></span><br><span class="line">	<span class="string">"goms/config"</span></span><br><span class="line">	<span class="string">"goms/datamodels"</span></span><br><span class="line">	<span class="string">"goms/datasource"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CasbinHandler</span><span class="params">(ctx iris.Context)</span></span> &#123;</span><br><span class="line">	token := ctx.Values().Get(<span class="string">"jwt"</span>).(*jwt.Token)</span><br><span class="line">	claims := token.Claims.(jwt.MapClaims)</span><br><span class="line">	userID := claims[<span class="string">"userId"</span>]</span><br><span class="line">	isAdmin := claims[<span class="string">"isAdmin"</span>].(<span class="keyword">bool</span>)</span><br><span class="line">	url := ctx.Path()</span><br><span class="line">	method := ctx.Method()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !isAdmin &#123;</span><br><span class="line">		enforcer := datasource.GetEnforce()</span><br><span class="line">		enforcer.LoadPolicy()</span><br><span class="line">		ok, _ := enforcer.Enforce(userID, url, method)</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			ctx.StopExecution()</span><br><span class="line">			response := &amp;datamodels.Response&#123;</span><br><span class="line">				Code: config.AccessDenied,</span><br><span class="line">				Msg:  <span class="string">"没有权限！"</span>,</span><br><span class="line">			&#125;</span><br><span class="line">			ctx.JSON(response)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	ctx.Next()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="把中间件添加进路由"><a href="#把中间件添加进路由" class="headerlink" title="把中间件添加进路由"></a>把中间件添加进路由</h3><p>route/route.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> route</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"github.com/kataras/iris/v12"</span></span><br><span class="line">	<span class="string">"github.com/kataras/iris/v12/mvc"</span></span><br><span class="line">	<span class="string">"goms/controllers"</span></span><br><span class="line">	<span class="string">"goms/middleware"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitRoute</span><span class="params">(app *iris.Application)</span></span> &#123;</span><br><span class="line">	mvc.Configure(app.Party(<span class="string">"/account"</span>), <span class="function"><span class="keyword">func</span><span class="params">(m *mvc.Application)</span></span> &#123;</span><br><span class="line">		m.Handle(controllers.NewLoginController())</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	app.Use(middleware.JwtHandler().Serve)</span><br><span class="line">	app.Use(middleware.CasbinHandler)</span><br><span class="line"></span><br><span class="line">	bathPath := <span class="string">"/api/v1"</span></span><br><span class="line">	mvc.Configure(app.Party(bathPath+<span class="string">"/games"</span>), <span class="function"><span class="keyword">func</span><span class="params">(m *mvc.Application)</span></span> &#123;</span><br><span class="line">		m.Handle(controllers.NewGameController())</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大功告成~</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/golang/" rel="tag"># golang</a>
+          
+            <a href="/tags/iris/" rel="tag"># iris</a>
+          
+            <a href="/tags/casbin/" rel="tag"># casbin</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/28/golang-iris-%E5%AD%A6%E4%B9%A0%E4%BA%8C-%E6%B7%BB%E5%8A%A0Jwt%E9%AA%8C%E8%AF%81/" rel="next" title="golang iris 学习二:添加Jwt验证">
+                <i class="fa fa-chevron-left"></i> golang iris 学习二:添加Jwt验证
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+      <div id="gitalk-container"></div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wisp888" />
+            
+              <p class="site-author-name" itemprop="name">wisp888</p>
+              <p class="site-description motion-element" itemprop="description">卧槽，炸了</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://lihuipeng.blog.51cto.com/" title="51cto" target="_blank">51cto</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#先定义一份简单的权限规则库"><span class="nav-number">1.</span> <span class="nav-text">先定义一份简单的权限规则库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加组的权限"><span class="nav-number">2.</span> <span class="nav-text">增加组的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#先增加一份初始化代码"><span class="nav-number">3.</span> <span class="nav-text">先增加一份初始化代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加casbin规则的增加、删除方法"><span class="nav-number">4.</span> <span class="nav-text">增加casbin规则的增加、删除方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户刷新的时候更新一次casbin权限"><span class="nav-number">5.</span> <span class="nav-text">用户刷新的时候更新一次casbin权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加中间件验证权限："><span class="nav-number">6.</span> <span class="nav-text">增加中间件验证权限：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把中间件添加进路由"><span class="nav-number">7.</span> <span class="nav-text">把中间件添加进路由</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wisp888</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="/js/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9e8bbcddca472db930ee',
+          clientSecret: '4f4d65f3557e8e628b196bf2dfd724658394fa58',
+          repo: 'wisp888.github.io',
+          owner: 'wisp888',
+          admin: ['wisp888'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')
+       </script>
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
