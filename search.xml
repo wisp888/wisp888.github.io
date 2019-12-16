@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Hive搭建</title>
-    <url>/2019/12/12/Hive%E6%90%AD%E5%BB%BA/</url>
+    <url>/Hive%E6%90%AD%E5%BB%BA.html</url>
     <content><![CDATA[<p>在hadoop的基础安装hive，我在node-1上面安装hive</p>
 <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
 <li>hadoop环境</li>
@@ -60,7 +60,7 @@
   </entry>
   <entry>
     <title>Hadoop集群搭建</title>
-    <url>/2019/12/12/Hadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</url>
+    <url>/Hadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA.html</url>
     <content><![CDATA[<p>在Centos7系统上进行安装，采用hadoop3.2.1</p>
 <h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><table>
 <thead>
@@ -146,7 +146,7 @@
   </entry>
   <entry>
     <title>golang iris 学习三: casbin权限验证</title>
-    <url>/2019/12/03/golang-iris-%E5%AD%A6%E4%B9%A0%E4%B8%89-casbin%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81/</url>
+    <url>/golang-iris-%E5%AD%A6%E4%B9%A0%E4%B8%89-casbin%E6%9D%83%E9%99%90%E9%AA%8C%E8%AF%81.html</url>
     <content><![CDATA[<p><a href="https://casbin.org/docs/zh-CN/tutorials" target="_blank" rel="noopener">Casbin官方教程</a> </p>
 <p>撸个简单的权限系统：用户包含角色， 角色包含权限</p>
 <h3 id="先定义一份简单的权限规则库"><a href="#先定义一份简单的权限规则库" class="headerlink" title="先定义一份简单的权限规则库"></a>先定义一份简单的权限规则库</h3><p>相当于定义菜单权限</p>
@@ -210,7 +210,7 @@
   </entry>
   <entry>
     <title>golang iris 学习二:添加Jwt验证</title>
-    <url>/2019/11/28/golang-iris-%E5%AD%A6%E4%B9%A0%E4%BA%8C-%E6%B7%BB%E5%8A%A0Jwt%E9%AA%8C%E8%AF%81/</url>
+    <url>/golang-iris-%E5%AD%A6%E4%B9%A0%E4%BA%8C-%E6%B7%BB%E5%8A%A0Jwt%E9%AA%8C%E8%AF%81.html</url>
     <content><![CDATA[<p><a href="https://blog.wangjunfeng.com/post/golang-jwt/" target="_blank" rel="noopener">Jwt科普</a> </p>
 <h3 id="在开始之前"><a href="#在开始之前" class="headerlink" title="在开始之前"></a>在开始之前</h3><p>先把</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &quot;github.com/kataras/iris&quot;</span><br></pre></td></tr></table></figure>
@@ -249,7 +249,7 @@
   </entry>
   <entry>
     <title>python 操作excel</title>
-    <url>/2019/11/27/python-%E6%93%8D%E4%BD%9Cexcel/</url>
+    <url>/python-%E6%93%8D%E4%BD%9Cexcel.html</url>
     <content><![CDATA[<h3 id="安装第三方库："><a href="#安装第三方库：" class="headerlink" title="安装第三方库："></a>安装第三方库：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install openpyxl</span><br></pre></td></tr></table></figure>
 
 <h3 id="存Excel文件："><a href="#存Excel文件：" class="headerlink" title="存Excel文件："></a>存Excel文件：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from openpyxl import Workbook</span><br><span class="line"> </span><br><span class="line">workbook = Workbook()</span><br><span class="line">booksheet = workbook.active     #获取当前活跃的sheet,默认是第一个sheet</span><br><span class="line">#存第一行单元格cell(1,1)</span><br><span class="line">booksheet.cell(1,1).value = 6   #这个方法索引从1开始</span><br><span class="line">booksheet.cell(&quot;B1&quot;).value = 7</span><br><span class="line">#存一行数据</span><br><span class="line">booksheet.append([11,87])</span><br><span class="line">workbook.save(&quot;test_openpyxl.xlsx&quot;)</span><br></pre></td></tr></table></figure>
@@ -264,7 +264,7 @@
   </entry>
   <entry>
     <title>golang iris 学习一: 使用MVC模式+Mongo数据库</title>
-    <url>/2019/11/22/golang-iris-%E5%AD%A6%E4%B9%A0%E4%B8%80-%E4%BD%BF%E7%94%A8MVC%E6%A8%A1%E5%BC%8F-Mongo%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <url>/golang-iris-%E5%AD%A6%E4%B9%A0%E4%B8%80-%E4%BD%BF%E7%94%A8MVC%E6%A8%A1%E5%BC%8F-Mongo%E6%95%B0%E6%8D%AE%E5%BA%93.html</url>
     <content><![CDATA[<p>最近有时间，重新把Golang学习了一下，得搞点东西练练手，看着能不能用Golang Iris把Python Flask的后台重写一下，刚好golang更新了mod模式，试用一把！！！<br>系统环境：ubuntu18.04<br>golang版本：1.13<br>mongo: 随便docker run出来的</p>
 <a id="more"></a>
 
@@ -327,7 +327,7 @@
   </entry>
   <entry>
     <title>Ubuntu wine 修改字体</title>
-    <url>/2019/11/08/Ubuntu-wine-%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93/</url>
+    <url>/Ubuntu-wine-%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93.html</url>
     <content><![CDATA[<p>今天在Ubuntu安装WPS的时候，修复WPS的字体报错，从Windows复制了几个字体过来重新生成了一下缓存，突然WineQQ和微信的字体也变了，摸索了一下修改一发Wine字体：</p>
 <a id="more"></a>
 
@@ -352,7 +352,7 @@
   </entry>
   <entry>
     <title>Python Json序列化时时间处理</title>
-    <url>/2019/11/06/Python-Json%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%B6%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86/</url>
+    <url>/Python-Json%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%B6%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html</url>
     <content><![CDATA[<p>在Python使用Json序列化字典的时候,如果遇到值是Datetime,Date格式的会报错,总不能手工一个个转,今天查了一下,可以使用dumps的default参数指定一个函数,loads的object_hook指定一个函数,解决这些转换问题</p>
 <a id="more"></a>
 
@@ -369,7 +369,7 @@
   </entry>
   <entry>
     <title>mongodb 数据备份与恢复</title>
-    <url>/2019/11/05/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</url>
+    <url>/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D.html</url>
     <content><![CDATA[<h3 id="mongodump-备份数据库"><a href="#mongodump-备份数据库" class="headerlink" title="mongodump 备份数据库"></a>mongodump 备份数据库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./mongodump -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -o 文件存在路径</span><br></pre></td></tr></table></figure>
 <ul>
 <li>不指定-d 则导出所有数据库</li>
@@ -402,7 +402,7 @@
   </entry>
   <entry>
     <title>Centos7 部署flask + vue-element笔记</title>
-    <url>/2019/10/31/Centos7%20%E9%83%A8%E7%BD%B2flask%20+%20vue-element%E7%AC%94%E8%AE%B0/</url>
+    <url>/Centos7%20%E9%83%A8%E7%BD%B2flask%20+%20vue-element%E7%AC%94%E8%AE%B0.html</url>
     <content><![CDATA[<h2 id="目录结构："><a href="#目录结构：" class="headerlink" title="目录结构："></a>目录结构：</h2><ul>
 <li>/data/www/oms/server 后端</li>
 <li>/data/www/oms/client  前端</li>
@@ -435,7 +435,7 @@
   </entry>
   <entry>
     <title>Centos7 mongodb安装笔记</title>
-    <url>/2019/10/31/Centos7%20mongodb%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0/</url>
+    <url>/Centos7%20mongodb%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0.html</url>
     <content><![CDATA[<h3 id="配置系统源"><a href="#配置系统源" class="headerlink" title="配置系统源"></a>配置系统源</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /etc/yum.repos.d/mongodb-org-4.2.repo</span><br><span class="line"></span><br><span class="line">[mongodb-org-4.2]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.2/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc</span><br></pre></td></tr></table></figure>
 
 <a id="more"></a>
@@ -456,7 +456,7 @@
   </entry>
   <entry>
     <title>Hello World</title>
-    <url>/2019/10/31/hello-world/</url>
+    <url>/hello-world.html</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
