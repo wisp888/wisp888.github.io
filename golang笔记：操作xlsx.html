@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="第三方库：1github.com&#x2F;tealeg&#x2F;xlsx  读取12345678910111213141516171819202122232425262728293031import(    &quot;fmt&quot;    &quot;github.com&#x2F;tealeg&#x2F;xlsx&quot;)var (    inFile = &quot;&#x2F;Users&#x2F;chain&#x2F;Downloads&#x2F;student1.xlsx&quot;)func Import()">
+<meta name="description" content="第三方库：1github.com&#x2F;tealeg&#x2F;xlsx">
 <meta name="keywords" content="golang,xlsx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="golang笔记：操作xlsx">
 <meta property="og:url" content="https:&#x2F;&#x2F;wisp888.github.io&#x2F;golang%E7%AC%94%E8%AE%B0%EF%BC%9A%E6%93%8D%E4%BD%9Cxlsx.html">
 <meta property="og:site_name" content="wisp的博客">
-<meta property="og:description" content="第三方库：1github.com&#x2F;tealeg&#x2F;xlsx  读取12345678910111213141516171819202122232425262728293031import(    &quot;fmt&quot;    &quot;github.com&#x2F;tealeg&#x2F;xlsx&quot;)var (    inFile = &quot;&#x2F;Users&#x2F;chain&#x2F;Downloads&#x2F;student1.xlsx&quot;)func Import()">
+<meta property="og:description" content="第三方库：1github.com&#x2F;tealeg&#x2F;xlsx">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-19T09:55:03.297Z">
+<meta property="og:updated_time" content="2019-12-20T01:09:38.499Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -385,6 +385,8 @@
 
       
         <h3 id="第三方库："><a href="#第三方库：" class="headerlink" title="第三方库："></a>第三方库：</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">github.com/tealeg/xlsx</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <h3 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>(</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"github.com/tealeg/xlsx"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    inFile = <span class="string">"/Users/chain/Downloads/student1.xlsx"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Import</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// 打开文件</span></span><br><span class="line">    xlFile, err := xlsx.OpenFile(inFile)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(err.Error())</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 遍历sheet页读取</span></span><br><span class="line">    <span class="keyword">for</span> _, sheet := <span class="keyword">range</span> xlFile.Sheets &#123;</span><br><span class="line">        fmt.Println(<span class="string">"sheet name: "</span>, sheet.Name)</span><br><span class="line">        <span class="comment">//遍历行读取</span></span><br><span class="line">        <span class="keyword">for</span> _, row := <span class="keyword">range</span> sheet.Rows &#123;</span><br><span class="line">            <span class="comment">// 遍历每行的列读取</span></span><br><span class="line">            <span class="keyword">for</span> _, cell := <span class="keyword">range</span> row.Cells &#123;</span><br><span class="line">                text := cell.String()</span><br><span class="line">                fmt.Printf(<span class="string">"%20s"</span>, text)</span><br><span class="line">            &#125;</span><br><span class="line">            fmt.Print(<span class="string">"\n"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(<span class="string">"\n\nimport success"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
