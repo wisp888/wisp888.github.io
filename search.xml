@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>git proxy</title>
+    <url>/git-proxy.html</url>
+    <content><![CDATA[<h3 id="全局代理，写入配置"><a href="#全局代理，写入配置" class="headerlink" title="全局代理，写入配置"></a>全局代理，写入配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">'socks5://127.0.0.1:1080'</span></span><br><span class="line">git config --global https.proxy <span class="string">'socks5://127.0.0.1:1080'</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="清除配置"><a href="#清除配置" class="headerlink" title="清除配置"></a>清除配置</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global --<span class="built_in">unset</span> http.proxy</span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="临时代理"><a href="#临时代理" class="headerlink" title="临时代理"></a>临时代理</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ALL_PROXY=socks5://127.0.0.1:1080 git <span class="built_in">clone</span> xxx</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>proxy</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>golang 像Python3一样格式化字符串</title>
     <url>/golang-%E5%83%8FPython3%E4%B8%80%E6%A0%B7%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2.html</url>
     <content><![CDATA[<p>Python里面的字符串格式化，非常方便，像：</p>
