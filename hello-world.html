@@ -338,6 +338,17 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/hello-world.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="hello-world.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -437,7 +448,15 @@
           
 
   
-      <div id="gitalk-container"></div>
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
   
 
 
@@ -722,6 +741,26 @@
 
   
 
+    
+      <script id="dsq-count-scr" src="https://aaaaaaaaaaaaaaa.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://wisp888.gitee.io/hello-world.html';
+          this.page.identifier = 'hello-world.html';
+          this.page.title = 'Hello World';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://aaaaaaaaaaaaaaa.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
 
 
 
@@ -737,7 +776,6 @@
 
 
 
-  
 
 
 
@@ -746,25 +784,6 @@
 
 
 
-
-
-
-
-  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-  <script src="/js/md5.min.js"></script>
-   <script type="text/javascript">
-        var gitalk = new Gitalk({
-          clientID: '9e8bbcddca472db930ee',
-          clientSecret: '4f4d65f3557e8e628b196bf2dfd724658394fa58',
-          repo: 'wisp888.github.io',
-          owner: 'wisp888',
-          admin: ['wisp888'],
-          id: md5(location.pathname),
-          distractionFreeMode: 'true'
-        })
-        gitalk.render('gitalk-container')
-       </script>
 
   
 
