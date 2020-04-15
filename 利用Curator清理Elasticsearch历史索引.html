@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hadoop,hive" />
+  <meta name="keywords" content="Python,Golang,Shell,Centos" />
 
 
 
@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="在hadoop的基础安装hive，我在node-1上面安装hive 准备工作 hadoop环境 Mysql服务  安装123456789tar xvf apache-hive-3.1.2-bin.tar.gzmv apache-hive-3.1.2 &#x2F;usr&#x2F;local&#x2F;hivecat &amp;gt;&amp;gt; &#x2F;etc&#x2F;profile &amp;lt;&amp;lt; &quot;EOF&quot;export HIVE_HOME=&#x2F;us">
-<meta name="keywords" content="hadoop,hive">
+<meta name="description" content="运维笔记">
+<meta name="keywords" content="Python,Golang">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hive搭建">
-<meta property="og:url" content="https:&#x2F;&#x2F;wisp888.gitee.io&#x2F;Hive%E6%90%AD%E5%BB%BA.html">
+<meta property="og:title" content="利用Curator清理Elasticsearch历史索引">
+<meta property="og:url" content="https:&#x2F;&#x2F;wisp888.gitee.io&#x2F;%E5%88%A9%E7%94%A8Curator%E6%B8%85%E7%90%86Elasticsearch%E5%8E%86%E5%8F%B2%E7%B4%A2%E5%BC%95.html">
 <meta property="og:site_name" content="wisp的博客">
-<meta property="og:description" content="在hadoop的基础安装hive，我在node-1上面安装hive 准备工作 hadoop环境 Mysql服务  安装123456789tar xvf apache-hive-3.1.2-bin.tar.gzmv apache-hive-3.1.2 &#x2F;usr&#x2F;local&#x2F;hivecat &amp;gt;&amp;gt; &#x2F;etc&#x2F;profile &amp;lt;&amp;lt; &quot;EOF&quot;export HIVE_HOME=&#x2F;us">
+<meta property="og:description" content="运维笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-20T06:11:28.000Z">
+<meta property="og:updated_time" content="2020-04-15T08:00:50.803Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://wisp888.gitee.io/Hive搭建.html"/>
+  <link rel="canonical" href="https://wisp888.gitee.io/利用Curator清理Elasticsearch历史索引.html"/>
 
 
 
 
 
-  <title>Hive搭建 | wisp的博客</title>
+  <title>利用Curator清理Elasticsearch历史索引 | wisp的博客</title>
   
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://wisp888.gitee.io/Hive%E6%90%AD%E5%BB%BA.html">
+    <link itemprop="mainEntityOfPage" href="https://wisp888.gitee.io/%E5%88%A9%E7%94%A8Curator%E6%B8%85%E7%90%86Elasticsearch%E5%8E%86%E5%8F%B2%E7%B4%A2%E5%BC%95.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wisp888">
@@ -312,7 +312,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Hive搭建</h2>
+          <h2 class="post-title" itemprop="name headline">利用Curator清理Elasticsearch历史索引</h2>
         
 
         <div class="post-meta">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-12T11:56:03+08:00">
-                2019-12-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-15T16:00:50+08:00">
+                2020-04-15
               </time>
             
 
@@ -334,28 +334,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index">
-                    <span itemprop="name">大数据</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -384,52 +362,7 @@
       
 
       
-        <p>在hadoop的基础安装hive，我在node-1上面安装hive</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
-<li>hadoop环境</li>
-<li>Mysql服务</li>
-</ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tar xvf apache-hive-3.1.2-bin.tar.gz</span><br><span class="line">mv apache-hive-3.1.2 /usr/<span class="built_in">local</span>/hive</span><br><span class="line"></span><br><span class="line">cat &gt;&gt; /etc/profile &lt;&lt; <span class="string">"EOF"</span></span><br><span class="line"><span class="built_in">export</span> HIVE_HOME=/usr/<span class="built_in">local</span>/hive</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HIVE_HOME</span>/bin</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>hive的主要配置目录在: /usr/local/hive/conf</p>
-<h4 id="hive-env-sh"><a href="#hive-env-sh" class="headerlink" title="hive-env.sh"></a>hive-env.sh</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp hive-env.sh.template hive-env.sh</span><br></pre></td></tr></table></figure>
-
-<p>修改配置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HADOOP_HOME=/usr/local/hadoop</span><br><span class="line">export HIVE_CONF_DIR=/usr/local/hive/conf</span><br></pre></td></tr></table></figure>
-
-<h4 id="hive-site-xml"><a href="#hive-site-xml" class="headerlink" title="hive-site.xml"></a>hive-site.xml</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp hive-default.xml.template hive-site.xml</span><br><span class="line">mkdir /usr/<span class="built_in">local</span>/hive/tmp -p</span><br></pre></td></tr></table></figure>
-
-<p>修改hive-site.xml</p>
-<ul>
-<li>删除  ‘&amp;#8’</li>
-<li>把 ${system:java.io.tmpdir} 修改成 /usr/local/apache-hive-3.1.2-bin/tmp；修改的操作命令如下（采用的vim全局替换命令）：%s/${system:java.io.tmpdir}//usr/local/apache-hive-3.1.2-bin/tmp/g；</li>
-<li>把 {system:user.name} 修改成 {user.name}；修改的操作命令如下（采用的vim全局替换命令）：%s/{system:user.name}/{user.name}/g；</li>
-</ul>
-<p>修改数据库连接配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>jdbc:mysql://localhost:3306/hive?characterEncoding=UTF-8&amp;amp;createDatabaseIfNotExist=true<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span><span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span><span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>******<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>修改hive-jdbc连接配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.thrift.port<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>10000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.thrift.bind.host<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>0.0.0.0<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>修改客户端连接认证方式</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.authentication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>NOSASL<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="添加Mysql连接驱动"><a href="#添加Mysql连接驱动" class="headerlink" title="添加Mysql连接驱动"></a>添加Mysql连接驱动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh mysql-connector-java-8.0.18-1.el7.noarch.rpm</span><br><span class="line">cp /usr/share/java/mysql-connector-java.jar /usr/<span class="built_in">local</span>/hive/lib/</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新guava-jar包"><a href="#更新guava-jar包" class="headerlink" title="更新guava.jar包"></a>更新guava.jar包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/<span class="built_in">local</span>/hadoop/share/hadoop/hdfs/lib/guava-27.0-jre.jar  /usr/<span class="built_in">local</span>/hive/lib/</span><br><span class="line">rm -f /usr/<span class="built_in">local</span>/hive/lib/guava-19.0.jar</span><br></pre></td></tr></table></figure>
-
-<h3 id="初始化元数据"><a href="#初始化元数据" class="headerlink" title="初始化元数据"></a>初始化元数据</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">schematool -dbType mysql -initSchema --verbose</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动hive"><a href="#启动hive" class="headerlink" title="启动hive"></a>启动hive</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/hive</span><br><span class="line">./bin/hive --service metastore &amp;</span><br><span class="line">./bin/hive --service hiveserver2 &amp;</span><br></pre></td></tr></table></figure>
-
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h4 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">create external table <span class="keyword">if</span> not exists testExtNew(</span><br><span class="line">name string,</span><br><span class="line">addr string</span><br><span class="line">)</span><br><span class="line">row format delimited fields terminated by <span class="string">'\t'</span> </span><br><span class="line">lines terminated by <span class="string">'\n'</span> </span><br><span class="line">stored as textfile</span><br><span class="line">location <span class="string">'/wisp/test/'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">select * from testExtNew;</span><br></pre></td></tr></table></figure>
-
-<h4 id="上传数据"><a href="#上传数据" class="headerlink" title="上传数据"></a>上传数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@node-1 data]<span class="comment"># cat test.txt </span></span><br><span class="line">wisp	aaaaaaaaaa</span><br><span class="line">lhp	bbbbbbb</span><br><span class="line"><span class="built_in">test</span>	cccccccccc</span><br><span class="line">tttt	asdfasf</span><br><span class="line">tttt	asdfasf</span><br><span class="line">tsadfasdf	asddddddd1fasf</span><br><span class="line"></span><br><span class="line">[root@node-1 data]<span class="comment"># hadoop fs -put /data/test.txt /wisp/test/</span></span><br><span class="line">[root@node-1 data]<span class="comment"># hive</span></span><br><span class="line">hive&gt; select * from testExtNew;</span><br><span class="line">OK</span><br><span class="line">tttt	asdfasf</span><br><span class="line">tttt	asdfasf</span><br><span class="line">tsadfasdf	asddddddd1fasf</span><br><span class="line">wisp	aaaaaaaaaa</span><br><span class="line">lhp	bbbbbbb</span><br><span class="line"><span class="built_in">test</span>	cccccccccc</span><br></pre></td></tr></table></figure>
-
-<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><ul>
-<li>Hive数据加载：<a href="https://blog.csdn.net/scgaliguodong123_/article/details/46906427" target="_blank" rel="noopener">https://blog.csdn.net/scgaliguodong123_/article/details/46906427</a></li>
-</ul>
-
+        
       
     </div>
     
@@ -444,16 +377,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/centos7/" rel="tag"># centos7</a>
-          
-            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
-          
-            <a href="/tags/hive/" rel="tag"># hive</a>
-          
-        </div>
-      
 
       
       
@@ -463,8 +386,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Hadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA.html" rel="next" title="Hadoop集群搭建">
-                <i class="fa fa-chevron-left"></i> Hadoop集群搭建
+              <a href="/ubuntu-%E6%9B%B4%E6%8D%A2Python%E7%89%88%E6%9C%AC.html" rel="next" title="ubuntu 更换Python版本">
+                <i class="fa fa-chevron-left"></i> ubuntu 更换Python版本
               </a>
             
           </div>
@@ -472,10 +395,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/golang%E7%AC%94%E8%AE%B0%EF%BC%9A%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6.html" rel="prev" title="golang笔记：读写文件">
-                golang笔记：读写文件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -527,17 +446,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -615,22 +525,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hive-env-sh"><span class="nav-number">3.1.</span> <span class="nav-text">hive-env.sh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hive-site-xml"><span class="nav-number">3.2.</span> <span class="nav-text">hive-site.xml</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加Mysql连接驱动"><span class="nav-number">4.</span> <span class="nav-text">添加Mysql连接驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新guava-jar包"><span class="nav-number">5.</span> <span class="nav-text">更新guava.jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化元数据"><span class="nav-number">6.</span> <span class="nav-text">初始化元数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动hive"><span class="nav-number">7.</span> <span class="nav-text">启动hive</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">8.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表"><span class="nav-number">8.1.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上传数据"><span class="nav-number">8.2.</span> <span class="nav-text">上传数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备注"><span class="nav-number">9.</span> <span class="nav-text">备注</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
