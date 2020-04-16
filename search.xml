@@ -3,7 +3,27 @@
   <entry>
     <title>利用Curator清理Elasticsearch历史索引</title>
     <url>/%E5%88%A9%E7%94%A8Curator%E6%B8%85%E7%90%86Elasticsearch%E5%8E%86%E5%8F%B2%E7%B4%A2%E5%BC%95.html</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h2 id="curator-简介"><a href="#curator-简介" class="headerlink" title="curator 简介"></a>curator 简介</h2><p>Curator是一个用来管理Elasticsearch索引的工具，使用它可以管理需要删除或保留的索引数据。 当Elasticsearch作为ELK、EFK等日志收集方案的日志存储时，删除过期数据以释放存储空间显的格外重要，使用Curator可以删除旧的索引并优化系统。<br>curator官网地址：<a href="http://t.cn/RuwN0oM" target="_blank" rel="noopener">http://t.cn/RuwN0oM</a><br>Git地址：<a href="https://github.com/elastic/curator" target="_blank" rel="noopener">https://github.com/elastic/curator</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip3 install elasticsearch-curator</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="curator-yml"><a href="#curator-yml" class="headerlink" title="curator.yml"></a>curator.yml</h3><p>主要用来指定curator作为ES客户端的连接和日志配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">client:</span><br><span class="line">  hosts:</span><br><span class="line">    - 10.104.154.139</span><br><span class="line">  port: 9200</span><br><span class="line">  url_prefix:</span><br><span class="line">  use_ssl: False</span><br><span class="line">  certificate:</span><br><span class="line">  client_cert:</span><br><span class="line">  client_key:</span><br><span class="line">  ssl_no_validate: False</span><br><span class="line">  http_auth:</span><br><span class="line">  timeout: 30</span><br><span class="line">  master_only: False</span><br><span class="line"></span><br><span class="line">logging:</span><br><span class="line">  loglevel: INFO</span><br><span class="line">  logfile: /usr/local/elasticsearch/logs/curator.log</span><br><span class="line">  logformat: default</span><br><span class="line">  blacklist: [&apos;elasticsearch&apos;, &apos;urllib3&apos;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="actions定义在一个deleteLogs-yml文件中"><a href="#actions定义在一个deleteLogs-yml文件中" class="headerlink" title="actions定义在一个deleteLogs.yml文件中"></a>actions定义在一个deleteLogs.yml文件中</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line"># Remember, leave a key empty if there is no value.  None will be a string,</span><br><span class="line"># not a Python &quot;NoneType&quot;</span><br><span class="line">#</span><br><span class="line"># Also remember that all examples have &apos;disable_action&apos; set to True.  If you</span><br><span class="line"># want to use this action as a template, be sure to set this to False after</span><br><span class="line"># copying it.</span><br><span class="line">actions:</span><br><span class="line">  1:</span><br><span class="line">    action: delete_indices</span><br><span class="line">    description: &gt;-</span><br><span class="line">      Delete indices older than 45 days (based on index name), for logstash-</span><br><span class="line">      prefixed indices. Ignore the error if the filter does not result in an</span><br><span class="line">      actionable list of indices (ignore_empty_list) and exit cleanly.</span><br><span class="line">    options:</span><br><span class="line">      ignore_empty_list: True</span><br><span class="line">      timeout_override:</span><br><span class="line">      continue_if_exception: False</span><br><span class="line">      disable_action: False</span><br><span class="line">    filters:</span><br><span class="line">    - filtertype: pattern</span><br><span class="line">      kind: prefix</span><br><span class="line">      value: xxxxx_</span><br><span class="line">      exclude:</span><br><span class="line">    - filtertype: age</span><br><span class="line">      source: name</span><br><span class="line">      direction: older</span><br><span class="line">      timestring: &apos;%Y.%m.%d&apos;</span><br><span class="line">      unit: days</span><br><span class="line">      unit_count: 30</span><br><span class="line">      exclude:</span><br></pre></td></tr></table></figure>
+<p>注意的地方有：</p>
+<ul>
+<li>disable_action 要设置成False才是生效状态</li>
+<li>filters.0.value 是匹配索引开头的字符串</li>
+<li>filters.1.unit  单位</li>
+<li>filters.1.unit_count 保留多少单位</li>
+</ul>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/usr/local/python3/bin/curator --config /usr/local/elasticsearch/config/curator.yml /usr/local/elasticsearch/config/deleteLogs.yml</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>elk</category>
+      </categories>
+      <tags>
+        <tag>elk</tag>
+      </tags>
   </entry>
   <entry>
     <title>ubuntu 更换Python版本</title>
@@ -27,8 +47,8 @@
         <category>ubuntu</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
         <tag>python</tag>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
