@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Golang加密方法大全</title>
+    <url>/Golang%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95%E5%A4%A7%E5%85%A8.html</url>
+    <content><![CDATA[<p>各种加密方法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> secret</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"appback/src/logger"</span></span><br><span class="line">    <span class="string">"bytes"</span></span><br><span class="line">    <span class="string">"crypto/aes"</span></span><br><span class="line">    <span class="string">"crypto/cipher"</span></span><br><span class="line">    <span class="string">"crypto/hmac"</span></span><br><span class="line">    <span class="string">"crypto/md5"</span></span><br><span class="line">    <span class="string">"crypto/rand"</span></span><br><span class="line">    <span class="string">"crypto/rsa"</span></span><br><span class="line">    <span class="string">"crypto/sha1"</span></span><br><span class="line">    <span class="string">"crypto/sha256"</span></span><br><span class="line">    <span class="string">"crypto/sha512"</span></span><br><span class="line">    <span class="string">"crypto/x509"</span></span><br><span class="line">    <span class="string">"encoding/base64"</span></span><br><span class="line">    <span class="string">"encoding/hex"</span></span><br><span class="line">    <span class="string">"encoding/pem"</span></span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"strings"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// md5验证</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MD5Str</span><span class="params">(src <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    h := md5.New()</span><br><span class="line">    h.Write([]<span class="keyword">byte</span>(src)) <span class="comment">// 需要加密的字符串为</span></span><br><span class="line">    <span class="comment">// fmt.Printf("%s\n", hex.EncodeToString(h.Sum(nil))) // 输出加密结果</span></span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(h.Sum(<span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// hmacsha256验证</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">HMAC_SHA256</span><span class="params">(src, key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    m := hmac.New(sha256.New, []<span class="keyword">byte</span>(key))</span><br><span class="line">    m.Write([]<span class="keyword">byte</span>(src))</span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(m.Sum(<span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// hmacsha512验证</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">HMAC_SHA512</span><span class="params">(src, key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    m := hmac.New(sha512.New, []<span class="keyword">byte</span>(key))</span><br><span class="line">    m.Write([]<span class="keyword">byte</span>(src))</span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(m.Sum(<span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">HMAC_SHA1</span><span class="params">(src, key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    m := hmac.New(sha1.New, []<span class="keyword">byte</span>(key))</span><br><span class="line">    m.Write([]<span class="keyword">byte</span>(src))</span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(m.Sum(<span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sha256验证</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SHA256Str</span><span class="params">(src <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    h := sha256.New()</span><br><span class="line">    h.Write([]<span class="keyword">byte</span>(src)) <span class="comment">// 需要加密的字符串为</span></span><br><span class="line">    <span class="comment">// fmt.Printf("%s\n", hex.EncodeToString(h.Sum(nil))) // 输出加密结果</span></span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(h.Sum(<span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// sha512验证</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SHA512Str</span><span class="params">(src <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    h := sha512.New()</span><br><span class="line">    h.Write([]<span class="keyword">byte</span>(src)) <span class="comment">// 需要加密的字符串为</span></span><br><span class="line">    <span class="comment">// fmt.Printf("%s\n", hex.EncodeToString(h.Sum(nil))) // 输出加密结果</span></span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(h.Sum(<span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// base编码</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BASE64EncodeStr</span><span class="params">(src <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">string</span>(base64.StdEncoding.EncodeToString([]<span class="keyword">byte</span>(src)))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// base解码</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BASE64DecodeStr</span><span class="params">(src <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    a, err := base64.StdEncoding.DecodeString(src)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">string</span>(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ivspec = []<span class="keyword">byte</span>(<span class="string">"0000000000000000"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AESEncodeStr</span><span class="params">(src, key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    block, err := aes.NewCipher([]<span class="keyword">byte</span>(key))</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"key error1"</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> src == <span class="string">""</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"plain content empty"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    ecb := cipher.NewCBCEncrypter(block, ivspec)</span><br><span class="line">    content := []<span class="keyword">byte</span>(src)</span><br><span class="line">    content = PKCS5Padding(content, block.BlockSize())</span><br><span class="line">    crypted := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(content))</span><br><span class="line">    ecb.CryptBlocks(crypted, content)</span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(crypted)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">AESDecodeStr</span><span class="params">(crypt, key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    crypted, err := hex.DecodeString(strings.ToLower(crypt))</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> || <span class="built_in">len</span>(crypted) == <span class="number">0</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"plain content empty"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    block, err := aes.NewCipher([]<span class="keyword">byte</span>(key))</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"key error1"</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    ecb := cipher.NewCBCDecrypter(block, ivspec)</span><br><span class="line">    decrypted := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="built_in">len</span>(crypted))</span><br><span class="line">    ecb.CryptBlocks(decrypted, crypted)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">string</span>(PKCS5Trimming(decrypted))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PKCS5Padding</span><span class="params">(ciphertext []<span class="keyword">byte</span>, blockSize <span class="keyword">int</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">    padding := blockSize - <span class="built_in">len</span>(ciphertext)%blockSize</span><br><span class="line">    padtext := bytes.Repeat([]<span class="keyword">byte</span>&#123;<span class="keyword">byte</span>(padding)&#125;, padding)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">append</span>(ciphertext, padtext...)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PKCS5Trimming</span><span class="params">(encrypt []<span class="keyword">byte</span>)</span> []<span class="title">byte</span></span> &#123;</span><br><span class="line">    padding := encrypt[<span class="built_in">len</span>(encrypt)<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">return</span> encrypt[:<span class="built_in">len</span>(encrypt)-<span class="keyword">int</span>(padding)]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RsaEncrypt</span><span class="params">(src, key <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    block, _ := pem.Decode([]<span class="keyword">byte</span>(key))</span><br><span class="line">    <span class="keyword">if</span> block == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pubInterface, err := x509.ParsePKIXPublicKey(block.Bytes)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logger.SysLogger.Err(err.Error())</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    pub := pubInterface.(*rsa.PublicKey)</span><br><span class="line"></span><br><span class="line">    crypted, err := rsa.EncryptPKCS1v15(rand.Reader, pub, []<span class="keyword">byte</span>(src))</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        logger.SysLogger.Err(err.Error())</span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> hex.EncodeToString(crypted)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>golang</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Centos7 部署 guacamole</title>
     <url>/Centos7-%E9%83%A8%E7%BD%B2-guacamole.html</url>
     <content><![CDATA[<h2 id="Centos7-部署-guacamole1-1-0"><a href="#Centos7-部署-guacamole1-1-0" class="headerlink" title="Centos7 部署 guacamole1.1.0"></a>Centos7 部署 guacamole1.1.0</h2><h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># setenforce 0  # 可以设置配置文件永久关闭</span></span><br><span class="line"><span class="comment"># systemctl stop iptables.service</span></span><br><span class="line"><span class="comment"># systemctl stop firewalld.service</span></span><br></pre></td></tr></table></figure>
@@ -183,8 +197,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
         <tag>template</tag>
       </tags>
   </entry>
@@ -205,8 +219,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -219,8 +233,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
         <tag>tar</tag>
         <tag>gzip</tag>
       </tags>
@@ -240,8 +254,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -346,8 +360,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
         <tag>iris</tag>
         <tag>log</tag>
         <tag>zap</tag>
@@ -415,8 +429,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
         <tag>iris</tag>
         <tag>log</tag>
       </tags>
@@ -437,8 +451,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -453,8 +467,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
       </tags>
   </entry>
   <entry>
@@ -660,8 +674,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
         <tag>iris</tag>
         <tag>casbin</tag>
       </tags>
@@ -700,8 +714,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
         <tag>iris</tag>
         <tag>jwt</tag>
       </tags>
@@ -780,8 +794,8 @@
       </categories>
       <tags>
         <tag>mongodb</tag>
-        <tag>go</tag>
         <tag>golang</tag>
+        <tag>go</tag>
         <tag>iris</tag>
       </tags>
   </entry>
