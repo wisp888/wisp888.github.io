@@ -191,8 +191,8 @@
         <category>ubuntu</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
         <tag>python</tag>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -841,8 +841,8 @@
         <category>golang</category>
       </categories>
       <tags>
-        <tag>golang</tag>
         <tag>mongodb</tag>
+        <tag>golang</tag>
         <tag>go</tag>
         <tag>iris</tag>
       </tags>
