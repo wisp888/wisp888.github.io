@@ -387,9 +387,10 @@
 
       
         
-          
-          具体配置：123456789101112131415161718192021222324252627282930313233343536373839404142stages:  - install  - build  - deploy_productionvariables:  SCRIPTS_ST
-          ...
+          <h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h3><ul>
+<li>cache: 指的是缓存, 常用于依赖安装中, 如几个<code>jobs</code>都需要安装相同的依赖, 可以使用<code>依赖</code>, 此时可以加快依赖的安装进度</li>
+<li>artifacts: 将某个<code>工件</code>上传到GitLab提供下载或后续操作使用, 由于每个<code>job</code>启动时, 都会自动删除<code>.gitignore</code>中指定的文件, 因此对于依赖安装目录, 即可以使用<code>cache</code>, 也可以使用<code>artifacts</code></li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/Gitlab%E4%B8%ADVue%E7%9A%84CI%E9%85%8D%E7%BD%AE.html#more" rel="contents">
