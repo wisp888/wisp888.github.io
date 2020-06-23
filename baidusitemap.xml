@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://wisp888.gitee.io/Centos7%20mongodb%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0.html</loc>
+    <lastmod>2020-06-23</lastmod>
+  </url>  <url>
+    <loc>https://wisp888.gitee.io/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D.html</loc>
+    <lastmod>2020-06-23</lastmod>
+  </url>  <url>
+    <loc>https://wisp888.gitee.io/mongo-%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%8A%A8%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4.html</loc>
+    <lastmod>2020-06-23</lastmod>
+  </url>  <url>
+    <loc>https://wisp888.gitee.io/Centos7%20%E9%83%A8%E7%BD%B2flask%20+%20vue-element%E7%AC%94%E8%AE%B0.html</loc>
+    <lastmod>2020-06-23</lastmod>
+  </url>  <url>
+    <loc>https://wisp888.gitee.io/Centos7-%E9%83%A8%E7%BD%B2-guacamole.html</loc>
+    <lastmod>2020-06-23</lastmod>
+  </url>  <url>
+    <loc>https://wisp888.gitee.io/golang-%E4%BD%BF%E7%94%A8os-exec%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4.html</loc>
+    <lastmod>2020-06-23</lastmod>
+  </url>  <url>
     <loc>https://wisp888.gitee.io/Centos7-Nginx-%E9%97%AE%E9%A2%98.html</loc>
     <lastmod>2020-06-02</lastmod>
   </url>  <url>
@@ -12,9 +30,6 @@
   </url>  <url>
     <loc>https://wisp888.gitee.io/Golang%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95%E5%A4%A7%E5%85%A8.html</loc>
     <lastmod>2020-05-06</lastmod>
-  </url>  <url>
-    <loc>https://wisp888.gitee.io/Centos7-%E9%83%A8%E7%BD%B2-guacamole.html</loc>
-    <lastmod>2020-04-29</lastmod>
   </url>  <url>
     <loc>https://wisp888.gitee.io/%E8%AE%B0%E4%B8%80%E6%AC%A1elasticsearch%E9%94%99%E8%AF%AF%EF%BC%88SearchPhaseExecutionException-all-shards-failed%EF%BC%89.html</loc>
     <lastmod>2020-04-24</lastmod>
@@ -61,9 +76,6 @@
     <loc>https://wisp888.gitee.io/golang-%E5%83%8FPython3%E4%B8%80%E6%A0%B7%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2.html</loc>
     <lastmod>2020-01-08</lastmod>
   </url>  <url>
-    <loc>https://wisp888.gitee.io/mongodb%20%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D.html</loc>
-    <lastmod>2019-12-20</lastmod>
-  </url>  <url>
     <loc>https://wisp888.gitee.io/Python-Json%E5%BA%8F%E5%88%97%E5%8C%96%E6%97%B6%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html</loc>
     <lastmod>2019-12-20</lastmod>
   </url>  <url>
@@ -74,12 +86,6 @@
     <lastmod>2019-12-20</lastmod>
   </url>  <url>
     <loc>https://wisp888.gitee.io/Hadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA.html</loc>
-    <lastmod>2019-12-20</lastmod>
-  </url>  <url>
-    <loc>https://wisp888.gitee.io/Centos7%20mongodb%E5%AE%89%E8%A3%85%E7%AC%94%E8%AE%B0.html</loc>
-    <lastmod>2019-12-20</lastmod>
-  </url>  <url>
-    <loc>https://wisp888.gitee.io/Centos7%20%E9%83%A8%E7%BD%B2flask%20+%20vue-element%E7%AC%94%E8%AE%B0.html</loc>
     <lastmod>2019-12-20</lastmod>
   </url>  <url>
     <loc>https://wisp888.gitee.io/Ubuntu-wine-%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93.html</loc>

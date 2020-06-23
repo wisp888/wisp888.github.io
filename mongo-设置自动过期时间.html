@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Python,Golang,Shell,Centos" />
+  <meta name="keywords" content="mongo,mgo" />
 
 
 
@@ -79,14 +79,15 @@
 
 
 
-<meta name="description" content="运维笔记">
-<meta name="keywords" content="Python,Golang">
-<meta property="og:type" content="website">
-<meta property="og:title" content="葡萄丹与运维">
-<meta property="og:url" content="https:&#x2F;&#x2F;wisp888.gitee.io&#x2F;categories&#x2F;ubuntu&#x2F;index.html">
+<meta name="description" content="Time To Live(TTL) 集合 MongoDB 2.2 引入一个新特性–TTL 集合，TTL集合支持失效时间设置，或者在某个特定时间，集合自动清除超时文档，者用来保存一个诸如session会话信息的时候非常有用。 如果想使用TTL集合，用用到 expireAfterSeconds 选项">
+<meta name="keywords" content="mongo,mgo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongo 设置自动过期时间">
+<meta property="og:url" content="https:&#x2F;&#x2F;wisp888.gitee.io&#x2F;mongo-%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%8A%A8%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4.html">
 <meta property="og:site_name" content="葡萄丹与运维">
-<meta property="og:description" content="运维笔记">
+<meta property="og:description" content="Time To Live(TTL) 集合 MongoDB 2.2 引入一个新特性–TTL 集合，TTL集合支持失效时间设置，或者在某个特定时间，集合自动清除超时文档，者用来保存一个诸如session会话信息的时候非常有用。 如果想使用TTL集合，用用到 expireAfterSeconds 选项">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-23T09:25:14.433Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -117,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://wisp888.gitee.io/categories/ubuntu/"/>
+  <link rel="canonical" href="https://wisp888.gitee.io/mongo-设置自动过期时间.html"/>
 
 
 
 
 
-  <title>分类: ubuntu | 葡萄丹与运维</title>
+  <title>mongo 设置自动过期时间 | 葡萄丹与运维</title>
   
 
 
@@ -142,7 +143,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -280,83 +281,185 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h2>ubuntu<small>分类</small>
-        </h2>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wisp888.gitee.io/mongo-%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%8A%A8%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4.html">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wisp888">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="葡萄丹与运维">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/ubuntu-%E6%9B%B4%E6%8D%A2Python%E7%89%88%E6%9C%AC.html" itemprop="url">
-              
-                <span itemprop="name">ubuntu 更换Python版本</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">mongo 设置自动过期时间</h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-04-10T09:28:46+08:00"
-              content="2020-04-10" >
-          04-10
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-23T17:16:25+08:00">
+                2020-06-23
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mongo/" itemprop="url" rel="index">
+                    <span itemprop="name">mongo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <p>Time To Live(TTL) 集合</p>
+<p>MongoDB 2.2 引入一个新特性–TTL 集合，TTL集合支持失效时间设置，或者在某个特定时间，<br>集合自动清除超时文档，者用来保存一个诸如session会话信息的时候非常有用。</p>
+<p>如果想使用TTL集合，用用到 expireAfterSeconds 选项</p>
+<a id="more"></a>
 
-      <h3 class="post-title">
-        
-            <a class="post-title-link" href="/Ubuntu-wine-%E4%BF%AE%E6%94%B9%E5%AD%97%E4%BD%93.html" itemprop="url">
-              
-                <span itemprop="name">Ubuntu wine 修改字体</span>
-              
-            </a>
-        
-      </h3>
+<h3 id="Expire-Documents-after-a-Specified-Number-of-Seconds"><a href="#Expire-Documents-after-a-Specified-Number-of-Seconds" class="headerlink" title="Expire Documents after a Specified Number of Seconds"></a>Expire Documents after a Specified Number of Seconds</h3><p>首先创建索引，设置过期时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.log_events.createIndex( &#123; &quot;createdAt&quot;: 1 &#125;, &#123; expireAfterSeconds: 3600 &#125; )</span><br></pre></td></tr></table></figure>
+<p>然后存储数据入库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.log_events.insert( &#123;</span><br><span class="line">   &quot;createdAt&quot;: new Date(),</span><br><span class="line">   &quot;logEvent&quot;: 2,</span><br><span class="line">   &quot;logMessage&quot;: &quot;Success!&quot;</span><br><span class="line">&#125; )</span><br></pre></td></tr></table></figure>
+<p>golang 使用mgo实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CreateIndex</span><span class="params">()</span> <span class="params">(err error)</span></span> &#123;</span><br><span class="line">	db := datasource.NewSessionStore()</span><br><span class="line">	<span class="keyword">defer</span> db.Close()</span><br><span class="line">	col := db.C(log_events)</span><br><span class="line">	<span class="comment">// Index</span></span><br><span class="line">	index := mgo.Index&#123;</span><br><span class="line">		Key:         []<span class="keyword">string</span>&#123;<span class="string">"createdAt"</span>&#125;,</span><br><span class="line">		ExpireAfter: time.Second * <span class="number">3600</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	err = col.EnsureIndex(index)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-08T16:05:39+08:00"
-              content="2019-11-08" >
-          11-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+<h3 id="Expire-Documents-at-a-Specific-Clock-Time"><a href="#Expire-Documents-at-a-Specific-Clock-Time" class="headerlink" title="Expire Documents at a Specific Clock Time"></a>Expire Documents at a Specific Clock Time</h3><p>与上面的设置类似<br>首先建立索引，设置 expireAfterSeconds 为 0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.log_events.createIndex( &#123; &quot;expireAt&quot;: 1 &#125;, &#123; expireAfterSeconds: 0 &#125; )</span><br></pre></td></tr></table></figure>
+<p>然后存储数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.log_events.insert( &#123;</span><br><span class="line">   &quot;expireAt&quot;: new Date(&apos;July 22, 2013 14:00:00&apos;),</span><br><span class="line">   &quot;logEvent&quot;: 2,</span><br><span class="line">   &quot;logMessage&quot;: &quot;Success!&quot;</span><br><span class="line">&#125; )</span><br></pre></td></tr></table></figure>
+<p>expireAt 的值为特定的时间值，等时间到达expireAt的值时，这个文档就失效了。<br>mgo里面好像没办法创建这种索引了</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mongo/" rel="tag"># mongo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/golang-%E4%BD%BF%E7%94%A8os-exec%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4.html" rel="next" title="golang 使用os/exec执行命令">
+                <i class="fa fa-chevron-left"></i> golang 使用os/exec执行命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -364,6 +467,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -384,8 +491,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -463,6 +579,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Expire-Documents-after-a-Specified-Number-of-Seconds"><span class="nav-number">1.</span> <span class="nav-text">Expire Documents after a Specified Number of Seconds</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Expire-Documents-at-a-Specific-Clock-Time"><span class="nav-number">2.</span> <span class="nav-text">Expire Documents at a Specific Clock Time</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -603,6 +735,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
